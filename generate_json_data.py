@@ -65,8 +65,8 @@ def process_caption_tokens(caption_tokens, word_dict, max_length):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate json files')
-    parser.add_argument('--split-path', type=str, default='data/coco/dataset.json')
-    parser.add_argument('--data-path', type=str, default='data/coco')
+    parser.add_argument('--split-path', type=str, default='../datasets/MSCOCO/dataset.json')
+    parser.add_argument('--data-path', type=str, default='../datasets/MSCOCO')
     parser.add_argument('--max-captions', type=int, default=5,
                         help='maximum number of captions per image')
     parser.add_argument('--min-word-count', type=int, default=5,

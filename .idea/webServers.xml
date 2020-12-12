@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="cb6cfd02-e934-4226-98bc-a2843e7a2252" name="cnbc">
+        <fileTransfer rootFolder="/user_data/shaoanxi" accessType="SFTP" host="mind.cs.cmu.edu" port="22" sshConfigId="b1be274b-ee42-4a9c-8784-fe1dd8123e5a" sshConfig="shaoanxi@mind.cs.cmu.edu:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

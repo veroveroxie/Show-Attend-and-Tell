@@ -4,7 +4,7 @@ from attention import Attention
 
 
 class Decoder(nn.Module):
-    def __init__(self, vocabulary_size, encoder_dim, tf=False):
+    def __init__(self, vocabulary_size, encoder_dim, tf=False, config='Baseline'):
         super(Decoder, self).__init__()
         self.use_tf = tf
 
