@@ -54,13 +54,11 @@ def generate_caption_visualization(encoder, decoder, img_path, word_dict, beam_s
     resized_img = img.resize((int(w), int(h)), Image.BICUBIC).crop((left, top, left + 224, top + 224))
     img = np.array(resized_img.convert('RGB').getdata()).reshape(224, 224, 3)
     img = img.astype('float32') / 255
-    print(img.shape,' input image ')
 
     num_words = len(sentence_tokens)
     w = np.round(np.sqrt(num_words))
     h = np.ceil(np.float32(num_words) / w)
     alpha = torch.tensor(alpha)
-    print(alpha.size())
 
     plot_height = ceil((num_words + 3) / 4.0)
     ax1 = plt.subplot(4, plot_height, 1)
@@ -71,9 +69,7 @@ def generate_caption_visualization(encoder, decoder, img_path, word_dict, beam_s
         label = sentence_tokens[idx]
         plt.text(0, 1, label, backgroundcolor='white', fontsize=13)
         plt.text(0, 1, label, color='black', fontsize=13)
-        print(img.shape, ' img shape')
         plt.imshow(img)
-        print(alpha[idx, :].shape, 'alpha shape')
         if encoder.network == 'vgg19':
             shape_size = 14
         else:
@@ -83,10 +79,11 @@ def generate_caption_visualization(encoder, decoder, img_path, word_dict, beam_s
             alpha_img = skimage.transform.pyramid_expand(alpha[idx, :].reshape(shape_size, shape_size), upscale=16, sigma=20)
         else:
             alpha_img = skimage.transform.resize(alpha[idx, :].reshape(shape_size,shape_size), [img.shape[0], img.shape[1]])
-        print(alpha_img.shape, 'alpha_img shape')
         plt.imshow(alpha_img, alpha=0.8)
         plt.set_cmap(cm.Greys_r)
+        plt.tight_layout()
         plt.axis('off')
+    plt.tight_layout()
     plt.show()
 
 
