@@ -106,7 +106,6 @@ class Saver:
             for key in self.model_dict:
                 if self.model_dict[key] is not None:
                     self.model_dict[key].load_state_dict(model[key])
-                print(key)
             epoch = int(os.path.basename(latest_model_name.strip(os.sep)).split('.')[0].split('-')[-1])
             is_resume = True
             start_time = time.time() - model['used_time']

@@ -36,19 +36,19 @@ def generate_json_data(split_path, data_path, max_captions_per_image, min_word_c
     word_dict['<unk>'] = 2
     word_dict['<pad>'] = 3
 
-    with open(data_path + '/word_dict.json', 'w') as f:
+    with open(data_path + '/old_word_dict.json', 'w') as f:
         json.dump(word_dict, f)
 
     train_captions = process_caption_tokens(train_caption_tokens, word_dict, max_length)
     validation_captions = process_caption_tokens(validation_caption_tokens, word_dict, max_length)
 
-    with open(data_path + '/train_img_paths.json', 'w') as f:
+    with open(data_path + '/old_train_img_paths.json', 'w') as f:
         json.dump(train_img_paths, f)
-    with open(data_path + '/val_img_paths.json', 'w') as f:
+    with open(data_path + '/old_val_img_paths.json', 'w') as f:
         json.dump(validation_img_paths, f)
-    with open(data_path + '/train_captions.json', 'w') as f:
+    with open(data_path + '/old_train_captions.json', 'w') as f:
         json.dump(train_captions, f)
-    with open(data_path + '/val_captions.json', 'w') as f:
+    with open(data_path + '/old_val_captions.json', 'w') as f:
         json.dump(validation_captions, f)
 
 

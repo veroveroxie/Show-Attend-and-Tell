@@ -34,12 +34,14 @@ def generate_caption_visualization(encoder, decoder, img_path, word_dict, beam_s
     img_features = img_features.expand(beam_size, img_features.size(1), img_features.size(2))
     sentence, alpha = decoder.caption(img_features, beam_size)
 
+    print(sentence)
     token_dict = {idx: word for word, idx in word_dict.items()}
     sentence_tokens = []
     for word_idx in sentence:
         sentence_tokens.append(token_dict[word_idx])
         if word_idx == word_dict['<eos>']:
             break
+    print(sentence_tokens)
 
     img = Image.open(img_path)
     w, h = img.size
