@@ -33,8 +33,15 @@ def generate_caption_visualization(encoder, decoder, img_path, word_dict, beam_s
     img_features = encoder(img)
     img_features = img_features.expand(beam_size, img_features.size(1), img_features.size(2))
     sentence, alpha = decoder.caption(img_features, beam_size)
+    sum_alpha = torch.sum(torch.tensor(alpha),dim=0)
+    sum_alpha = torch.softmax(sum_alpha, dim=0)
+    plt.scatter(range(len(sum_alpha)), sum_alpha)
+    plt.xlabel('Feature Map Index')
+    plt.ylabel('Normalized Probablity')
+    plt.show()
+    plt.close()
+    raise ValueError
 
-    print(sentence)
     token_dict = {idx: word for word, idx in word_dict.items()}
     sentence_tokens = []
     for word_idx in sentence:
@@ -42,7 +49,6 @@ def generate_caption_visualization(encoder, decoder, img_path, word_dict, beam_s
         if word_idx == word_dict['<eos>']:
             break
     print(sentence_tokens)
-
     img = Image.open(img_path)
     w, h = img.size
     if w > h:
@@ -83,7 +89,6 @@ def generate_caption_visualization(encoder, decoder, img_path, word_dict, beam_s
             alpha_img = skimage.transform.resize(alpha[idx, :].reshape(shape_size,shape_size), [img.shape[0], img.shape[1]])
         plt.imshow(alpha_img, alpha=0.8)
         plt.set_cmap(cm.Greys_r)
-        plt.tight_layout()
         plt.axis('off')
     plt.tight_layout()
     plt.show()

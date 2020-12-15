@@ -4,7 +4,7 @@ from attention import Attention
 
 
 class Decoder(nn.Module):
-    def __init__(self, vocabulary_size, encoder_dim, tf=False, config='Baseline'):
+    def __init__(self, vocabulary_size, encoder_dim, tf=False):
         super(Decoder, self).__init__()
         self.use_tf = tf
 
@@ -124,7 +124,6 @@ class Decoder(nn.Module):
                 completed_sentences_alphas.extend(alphas[complete].tolist())
                 completed_sentences_preds.extend(top_preds[complete])
             beam_size -= len(complete)
-
             if beam_size == 0:
                 break
             sentences = sentences[incomplete]

@@ -14,6 +14,7 @@ from encoder import Encoder
 from utils import AverageMeter, accuracy, calculate_caption_lengths
 import os
 from utils import Saver
+import matplotlib.pyplot as plt
 
 os.environ['TORCH_HOME']='/user_data/shaoanxi/models'
 
@@ -56,17 +57,14 @@ def main(args):
         ImageCaptionDataset(data_transforms, args.data, split_type='test'),
         batch_size=args.batch_size, shuffle=False, num_workers=1)
 
-    #test(saver.start_epoch, encoder, decoder, cross_entropy_loss, test_loader,
-    #         word_dict, args.alpha_c, args.log_interval, writer, saver)
-    validate(saver.start_epoch, encoder, decoder, cross_entropy_loss, val_loader,
-             word_dict, args.alpha_c, args.log_interval, writer, saver)
-
     print('Starting training with {}'.format(args))
     for epoch in range(saver.start_epoch, args.epochs + 1):
         train(epoch, encoder, decoder, optimizer, cross_entropy_loss,
               train_loader, word_dict, args.alpha_c, args.log_interval, writer, saver, val_loader, args)
         saver.save_model(epoch)
         validate(epoch, encoder, decoder, cross_entropy_loss, val_loader,
+                 word_dict, args.alpha_c, args.log_interval, writer, saver)
+        test(epoch, encoder, decoder, cross_entropy_loss, test_loader,
                  word_dict, args.alpha_c, args.log_interval, writer, saver)
         old_lr = optimizer.param_groups[0]['lr']
         scheduler.step()
@@ -107,6 +105,9 @@ def train(epoch, encoder, decoder, optimizer, cross_entropy_loss, data_loader, w
         img_features = encoder(imgs)
         optimizer.zero_grad()
         preds, alphas = decoder(img_features, captions)
+
+
+
         targets = captions[:, 1:]
 
         targets = pack_padded_sequence(targets, [len(tar) - 1 for tar in targets], batch_first=True)[0]
@@ -257,10 +258,10 @@ def test(epoch, encoder, decoder, cross_entropy_loss, data_loader, word_dict, al
         bleu_3 = corpus_bleu(references, hypotheses, weights=(0.33, 0.33, 0.33, 0))
         bleu_4 = corpus_bleu(references, hypotheses)
 
-        writer.add_scalar('val_bleu1', bleu_1, epoch)
-        writer.add_scalar('val_bleu2', bleu_2, epoch)
-        writer.add_scalar('val_bleu3', bleu_3, epoch)
-        writer.add_scalar('val_bleu4', bleu_4, epoch)
+        writer.add_scalar('test_bleu1', bleu_1, epoch)
+        writer.add_scalar('test_bleu2', bleu_2, epoch)
+        writer.add_scalar('test_bleu3', bleu_3, epoch)
+        writer.add_scalar('test_bleu4', bleu_4, epoch)
         saver.save_print_msg('Test Epoch: {}\t'
                              'BLEU-1 ({})\t'
                              'BLEU-2 ({})\t'
@@ -271,7 +272,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Show, Attend and Tell')
     parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                         help='batch size for training (default: 64)')
-    parser.add_argument('--config', type=str, default='ITent',
+    parser.add_argument('--config', type=str, default='New_ITent',
                         help='configuration of the model')
     parser.add_argument('--epochs', type=int, default=10, metavar='E',
                         help='number of epochs to train for (default: 10)')

@@ -102,6 +102,7 @@ class Saver:
             start_time = time.time()
         else:
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
+            #device = 'cpu'
             model = torch.load(latest_model_name, map_location=torch.device(device))
             for key in self.model_dict:
                 if self.model_dict[key] is not None:
