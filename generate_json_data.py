@@ -10,6 +10,8 @@ def generate_json_data(split_path, data_path, max_captions_per_image, min_word_c
     train_caption_tokens = []
     validation_img_paths = []
     validation_caption_tokens = []
+    test_img_paths = []
+    test_caption_tokens = []
 
     max_length = 0
     for img in split['images']:
@@ -26,6 +28,9 @@ def generate_json_data(split_path, data_path, max_captions_per_image, min_word_c
             elif img['split'] == 'val':
                 validation_img_paths.append(data_path + '/imgs/' + img['filepath'] + '/' + img['filename'])
                 validation_caption_tokens.append(sentence['tokens'])
+            elif img['split'] == 'test':
+                test_img_paths.append(data_path + '/imgs/' + img['filepath'] + '/' + img['filename'])
+                test_caption_tokens.append(sentence['tokens'])
             max_length = max(max_length, len(sentence['tokens']))
             word_count.update(sentence['tokens'])
 
@@ -46,9 +51,13 @@ def generate_json_data(split_path, data_path, max_captions_per_image, min_word_c
         json.dump(train_img_paths, f)
     with open(data_path + '/val_img_paths.json', 'w') as f:
         json.dump(validation_img_paths, f)
+    with open(data_path + '/test_img_paths.json', 'w') as f:
+        json.dump(test_img_paths, f)
     with open(data_path + '/train_captions.json', 'w') as f:
         json.dump(train_captions, f)
     with open(data_path + '/val_captions.json', 'w') as f:
+        json.dump(validation_captions, f)
+    with open(data_path + '/test_captions.json', 'w') as f:
         json.dump(validation_captions, f)
 
 

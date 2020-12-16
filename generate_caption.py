@@ -33,14 +33,14 @@ def generate_caption_visualization(encoder, decoder, img_path, word_dict, beam_s
     img_features = encoder(img)
     img_features = img_features.expand(beam_size, img_features.size(1), img_features.size(2))
     sentence, alpha = decoder.caption(img_features, beam_size)
-    sum_alpha = torch.sum(torch.tensor(alpha),dim=0)
-    sum_alpha = torch.softmax(sum_alpha, dim=0)
-    plt.scatter(range(len(sum_alpha)), sum_alpha)
-    plt.xlabel('Feature Map Index')
-    plt.ylabel('Normalized Probablity')
-    plt.show()
-    plt.close()
-    raise ValueError
+    #sum_alpha = torch.sum(torch.tensor(alpha),dim=0)
+    #sum_alpha = torch.softmax(sum_alpha, dim=0)
+    #plt.scatter(range(len(sum_alpha)), sum_alpha)
+    #plt.xlabel('Feature Map Index')
+    #plt.ylabel('Normalized Probablity')
+    #plt.show()
+    #plt.close()
+    #raise ValueError
 
     token_dict = {idx: word for word, idx in word_dict.items()}
     sentence_tokens = []
