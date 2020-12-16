@@ -21,11 +21,11 @@ Start the training by running:
 python train.py
 ```
 
-The models will be saved in `model/` and the training statistics will be saved in `runs/`. To see the
+It will create the directories `results/xxxx` automatically. The models will be saved in `model` and the training statistics will be saved in `log`. To see the
 training statistics, use:
 
 ```bash
-tensorboard --logdir runs
+tensorboard --logdir results/xxxx/log
 ```
 
 ## To Generate Captions
